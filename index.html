@@ -109,6 +109,7 @@
         id: 'q-psych-fear',
         scenario: 'Mental Edge & Hesitation',
         question: 'Price formed a textbook 2m hammer at the day’s low towards EOD. You feel fear and hesitation to market in because you see previous downward momentum. What is the correct psychological protocol?',
+        chartType: 'hammer-setup',
         options: [
           {
             text: 'Wait until the move is already up 15 points to make sure buyers are completely in control.',
@@ -136,6 +137,7 @@
         id: 'q-psych-fomo',
         scenario: 'Mental Edge & FOMO Chasing',
         question: 'You stepped away for 3 minutes and returned to see the asset exploded +2.0R off the hammer low. A wave of FOMO hits your chest. What must you do?',
+        chartType: 'extended-fomo',
         options: [
           {
             text: 'Market in full size immediately at the highs before it pushes even further.',
@@ -163,6 +165,7 @@
         id: 'q-psych-early-exit',
         scenario: 'Trade Management & Anxiety',
         question: 'You are in the EOD reversal long. The trade is up +0.9R. You feel intense anxiety that price might pull back and erase your gain, so you want to close it now. What does the discipline framework prescribe?',
+        chartType: 'pullback-hold',
         options: [
           {
             text: 'Close the full trade immediately so you can guarantee a green day.',
@@ -190,6 +193,7 @@
         id: 'q-setup-1',
         scenario: 'EOD Reversal Execution',
         question: 'It is 3:20 PM. Price has been in a sustained downtrend all session with every low breaking. A 2m candle sweeps the low and closes as a clean hammer. What is your playbook trigger?',
+        chartType: 'hammer-setup',
         options: [
           {
             text: 'Wait for the 50 EMA on the 15-minute chart to cross over.',
@@ -217,6 +221,7 @@
         id: 'q-setup-invalidation',
         scenario: 'Invalidation & Stop Discipline',
         question: 'You entered long on the 2m hammer candle. The next candle immediately flushes and closes below the hammer low. What is your mandatory action?',
+        chartType: 'invalidation-break',
         options: [
           {
             text: 'Hold and hope it forms a double bottom before 4:00 PM.',
@@ -244,6 +249,7 @@
         id: 'q-setup-continuation',
         scenario: 'Continuation & Adding Size',
         question: 'Your EOD reversal is up +1.8R. Price pulls back into the rising 2-minute fast EMA and rejects with a wick back up. How should you treat this?',
+        chartType: 'pullback-hold',
         options: [
           {
             text: 'Panic and exit because any pullback means sellers have returned.',
@@ -798,6 +804,127 @@
                     <h3 className="text-base font-bold text-white">
                       {QUIZ_QUESTIONS[currentQuestionIndex].question}
                     </h3>
+
+                    {/* Chart / Image Display Area for Quiz */}
+                    {(() => {
+                      const q = QUIZ_QUESTIONS[currentQuestionIndex];
+                      if (q.imageUrl) {
+                        return (
+                          <div className="rounded-xl overflow-hidden border border-slate-800 bg-black">
+                            <img src={q.imageUrl} alt="Chart Scenario" className="w-full h-48 sm:h-56 object-cover" />
+                          </div>
+                        );
+                      }
+                      if (q.chartType === 'hammer-setup') {
+                        return (
+                          <div className="rounded-xl overflow-hidden border border-slate-800 bg-[#07090e] p-2">
+                            <div className="flex justify-between items-center px-2 py-1 text-[10px] font-mono text-slate-400 border-b border-slate-800/80 mb-1">
+                              <span>2-MINUTE CHART • EOD CLIMAX</span>
+                              <span className="text-emerald-400 font-bold">SETUP TRIGGER ZONE</span>
+                            </div>
+                            <svg viewBox="0 0 500 160" className="w-full h-36">
+                              {/* EMAs */}
+                              <path d="M 10,20 Q 150,45 280,95 T 480,120" fill="none" stroke="#ef4444" strokeWidth="2" opacity="0.8" />
+                              <path d="M 10,35 Q 140,65 260,115 T 480,125" fill="none" stroke="#eab308" strokeWidth="2" opacity="0.9" />
+                              {/* Downtrend red bars */}
+                              <line x1="40" y1="20" x2="40" y2="55" stroke="#ef4444" strokeWidth="1.5" /><rect x="37" y="28" width="6" height="20" fill="#ef4444" />
+                              <line x1="80" y1="40" x2="80" y2="75" stroke="#ef4444" strokeWidth="1.5" /><rect x="77" y="48" width="6" height="18" fill="#ef4444" />
+                              <line x1="120" y1="60" x2="120" y2="95" stroke="#ef4444" strokeWidth="1.5" /><rect x="117" y="68" width="6" height="20" fill="#ef4444" />
+                              <line x1="160" y1="75" x2="160" y2="115" stroke="#ef4444" strokeWidth="1.5" /><rect x="157" y="85" width="6" height="22" fill="#ef4444" />
+                              <line x1="200" y1="95" x2="200" y2="135" stroke="#ef4444" strokeWidth="2" /><rect x="196" y="102" width="8" height="25" fill="#ef4444" />
+                              
+                              {/* Hammer Candle */}
+                              <line x1="260" y1="105" x2="260" y2="152" stroke="#10b981" strokeWidth="2.5" />
+                              <rect x="256" y="105" width="8" height="12" fill="#10b981" />
+                              <line x1="230" y1="145" x2="310" y2="145" stroke="#ef4444" strokeWidth="2" strokeDasharray="3,3" />
+                              <text x="270" y="152" fill="#ef4444" fontSize="8" fontFamily="monospace">Low Level: 28232.75</text>
+                              
+                              {/* Trigger callout */}
+                              <polygon points="268,102 278,98 275,106" fill="#10b981" />
+                              <text x="282" y="103" fill="#10b981" fontSize="9" fontFamily="monospace" fontWeight="bold">2m Hammer Close</text>
+                            </svg>
+                          </div>
+                        );
+                      }
+                      if (q.chartType === 'invalidation-break') {
+                        return (
+                          <div className="rounded-xl overflow-hidden border border-slate-800 bg-[#07090e] p-2">
+                            <div className="flex justify-between items-center px-2 py-1 text-[10px] font-mono text-slate-400 border-b border-slate-800/80 mb-1">
+                              <span>INVALIDATION SCENARIO</span>
+                              <span className="text-rose-400 font-bold">LOW FAILS TO HOLD</span>
+                            </div>
+                            <svg viewBox="0 0 500 160" className="w-full h-36">
+                              {/* Hammer candle */}
+                              <line x1="180" y1="70" x2="180" y2="120" stroke="#10b981" strokeWidth="2" />
+                              <rect x="176" y="70" width="8" height="12" fill="#10b981" />
+                              <line x1="140" y1="118" x2="350" y2="118" stroke="#ef4444" strokeWidth="1.5" strokeDasharray="4,4" />
+                              <text x="140" y="130" fill="#ef4444" fontSize="8" fontFamily="monospace">Hammer Low (Hard Stop)</text>
+                              
+                              {/* Breakdown Candle */}
+                              <line x1="240" y1="78" x2="240" y2="145" stroke="#ef4444" strokeWidth="2.5" />
+                              <rect x="235" y="85" width="10" height="52" fill="#ef4444" />
+                              <polygon points="255,122 268,122 263,130" fill="#ef4444" />
+                              <text x="272" y="125" fill="#ef4444" fontSize="9" fontFamily="monospace" fontWeight="bold">Slices wick & closes below</text>
+                            </svg>
+                          </div>
+                        );
+                      }
+                      if (q.chartType === 'pullback-hold') {
+                        return (
+                          <div className="rounded-xl overflow-hidden border border-slate-800 bg-[#07090e] p-2">
+                            <div className="flex justify-between items-center px-2 py-1 text-[10px] font-mono text-slate-400 border-b border-slate-800/80 mb-1">
+                              <span>TREND CONTINUATION</span>
+                              <span className="text-emerald-400 font-bold">2M EMA PULLBACK HOLD</span>
+                            </div>
+                            <svg viewBox="0 0 500 160" className="w-full h-36">
+                              {/* Fast EMA Rising */}
+                              <path d="M 50,140 Q 150,110 260,80 T 450,30" fill="none" stroke="#eab308" strokeWidth="2.5" />
+                              <text x="370" y="45" fill="#eab308" fontSize="9" fontFamily="monospace">2m Fast EMA</text>
+
+                              {/* Expansion Bars */}
+                              <line x1="80" y1="110" x2="80" y2="145" stroke="#10b981" strokeWidth="2" /><rect x="76" y="115" width="8" height="22" fill="#10b981" />
+                              <line x1="120" y1="85" x2="120" y2="125" stroke="#10b981" strokeWidth="2" /><rect x="116" y="90" width="8" height="25" fill="#10b981" />
+                              <line x1="160" y1="65" x2="160" y2="105" stroke="#10b981" strokeWidth="2" /><rect x="156" y="70" width="8" height="25" fill="#10b981" />
+                              
+                              {/* Pullback Candle Testing EMA */}
+                              <line x1="210" y1="70" x2="210" y2="105" stroke="#ef4444" strokeWidth="2" /><rect x="206" y="73" width="8" height="20" fill="#ef4444" />
+                              <line x1="240" y1="60" x2="240" y2="98" stroke="#10b981" strokeWidth="2.5" /><rect x="236" y="65" width="8" height="18" fill="#10b981" />
+                              
+                              {/* Add Signal marker */}
+                              <polygon points="240,110 240,100 248,105" fill="#10b981" />
+                              <text x="255" y="108" fill="#10b981" fontSize="9" fontFamily="monospace" fontWeight="bold">EMA Hold Wick (Potential Add)</text>
+                              
+                              {/* Secondary Rip */}
+                              <line x1="280" y1="40" x2="280" y2="80" stroke="#10b981" strokeWidth="2" /><rect x="276" y="45" width="8" height="28" fill="#10b981" />
+                            </svg>
+                          </div>
+                        );
+                      }
+                      if (q.chartType === 'extended-fomo') {
+                        return (
+                          <div className="rounded-xl overflow-hidden border border-slate-800 bg-[#07090e] p-2">
+                            <div className="flex justify-between items-center px-2 py-1 text-[10px] font-mono text-slate-400 border-b border-slate-800/80 mb-1">
+                              <span>EXTENDED PRICE ACTION</span>
+                              <span className="text-amber-400 font-bold">FOMO ZONE (+2.0R EXTENDED)</span>
+                            </div>
+                            <svg viewBox="0 0 500 160" className="w-full h-36">
+                              <path d="M 60,140 Q 150,120 280,100 T 450,70" fill="none" stroke="#eab308" strokeWidth="2" opacity="0.7" />
+                              {/* Explosive vertical candles */}
+                              <line x1="90" y1="110" x2="90" y2="140" stroke="#10b981" strokeWidth="2" /><rect x="86" y="115" width="8" height="20" fill="#10b981" />
+                              <line x1="130" y1="75" x2="130" y2="120" stroke="#10b981" strokeWidth="2.5" /><rect x="125" y="80" width="10" height="35" fill="#10b981" />
+                              <line x1="170" y1="40" x2="170" y2="90" stroke="#10b981" strokeWidth="2.5" /><rect x="165" y="45" width="10" height="40" fill="#10b981" />
+                              <line x1="210" y1="15" x2="210" y2="60" stroke="#10b981" strokeWidth="2.5" /><rect x="205" y="20" width="10" height="35" fill="#10b981" />
+
+                              {/* Warning Banner */}
+                              <rect x="235" y="25" width="230" height="34" fill="#000000" rx="4" stroke="#f59e0b" strokeWidth="1" />
+                              <text x="245" y="40" fill="#f59e0b" fontSize="9" fontFamily="monospace" fontWeight="bold">EXTENDED &gt; 15 PTS FROM LOW</text>
+                              <text x="245" y="52" fill="#cbd5e1" fontSize="8" fontFamily="monospace">Buying here creates bad R:R stop</text>
+                            </svg>
+                          </div>
+                        );
+                      }
+                      return null;
+                    })()}
 
                     <div className="space-y-2.5">
                       {QUIZ_QUESTIONS[currentQuestionIndex].options.map((opt, idx) => {
